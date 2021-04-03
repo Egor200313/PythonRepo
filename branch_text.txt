@@ -1,3 +1,0 @@
-Hello!
-It's my first txt file on this branch
-I'm learning git now, and I've already have some results!
