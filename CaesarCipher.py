@@ -1,50 +1,56 @@
 import string
-def make_ceasar_dict(shift):
-	eng_from = string.ascii_lowercase+string.ascii_uppercase
-	shift %= len(eng_from)
-	eng_to = eng_from[shift:]+eng_from[:shift]
-	return dict(zip(eng_from, eng_to))
+from AbstractCipher import Cipher
 
-def make_reversed_caesar_dict(shift):
-	eng_from = string.ascii_lowercase+string.ascii_uppercase
-	shift %= len(eng_from)
-	eng_to = eng_from[shift:]+eng_from[:shift]
-	return dict(zip(eng_to, eng_from))
 
-def caesar_cipher(text, key):
-	out = ""
-	transform = make_ceasar_dict(key)
-	print(transform)
-	for letter in text:
-		#print(letter)
-		if letter.isalpha():
-			#print(letter, transform[letter])
-			out += transform[letter]
-		else:
-			out += letter
-	return out
+class Caesar(Cipher):
+	@staticmethod
+	def make_ceasar_dict(shift):
+		eng_from = string.ascii_letters
+		shift %= len(eng_from)
+		eng_to = eng_from[shift:] + eng_from[:shift]
+		return dict(zip(eng_from, eng_to))
 
-def caesar_uncipher(text, key):
-	out = ""
-	transform = make_reversed_caesar_dict(key)
-	for letter in text:
-		if letter.isalpha():
-			#print(letter, transform[letter])
-			out += transform[letter]
-		else:
-			out += letter
-	return out
+	@staticmethod
+	def make_inversed_caesar_dict(shift):
+		eng_from = string.ascii_lowercase+string.ascii_uppercase
+		shift %= len(eng_from)
+		eng_to = eng_from[shift:] + eng_from[:shift]
+		return dict(zip(eng_to, eng_from))
 
-def get_caesar_key():
-    correct_key = False
-    while not correct_key:
-        key = int(input("Enter password: "))
-        if not key.isdigit():
-            key = int(input("Enter password: "))
-        else:
-            correct_key= True
-    
-    return key
+	def crypt(self, text):
+		key = self.get_caesar_key()
+		out = ""
+		transform = self.make_ceasar_dict(key)
+		for letter in text:
+			if letter.isalpha():
+				out += transform[letter]
+			else:
+				out += letter
+		return out
+
+	def decrypt(self, text):
+		key = self.get_caesar_key()
+		out = ""
+		transform = self.make_inversed_caesar_dict(key)
+		for letter in text:
+			if letter.isalpha():
+				out += transform[letter]
+			else:
+				out += letter
+		return out
+
+	@staticmethod
+	def get_caesar_key():
+		correct_key = False
+		key = None
+		while not correct_key:
+			input_key = input("Enter password: ")
+			if any(not key.isdigit() for key in input_key):
+				print("Incorrect key!")
+			else:
+				key = int(input_key)
+				correct_key = True
+		return key
 
 
 
