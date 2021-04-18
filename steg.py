@@ -3,7 +3,7 @@ import os
 import sys
 
 
-def crypt(img_name, input_file_name, output_img_name):
+def crypt(img_name: str, input_file_name: str, output_img_name: str) -> None:
 	img_size = os.stat(img_name).st_size
 	text_size = os.stat(input_file_name).st_size
 	degree = int(input("Enter degree(1/2/4/8): "))
@@ -38,7 +38,7 @@ def crypt(img_name, input_file_name, output_img_name):
 				edited_bmp.write(img_bmp.read())
 
 
-def decrypt(img_name, output_file_name):
+def decrypt(img_name: str, output_file_name: str) -> None:
 	with open(img_name, "rb") as img:
 		with open(output_file_name, "w") as output_file:
 			degree = int(input("Enter degree(1/2/4/8): "))

@@ -4,7 +4,7 @@ from AbstractCipher import Cipher
 
 class Vigenere(Cipher):
 	@staticmethod
-	def get_vig_key(length):
+	def get_vig_key(length: int) -> str:
 		correct_key = False
 		key = ""
 		while not correct_key:
@@ -20,7 +20,7 @@ class Vigenere(Cipher):
 				correct_key = True
 		return key
 
-	def crypt(self, text):
+	def crypt(self, text: str) -> str:
 		key = self.get_vig_key(len(text))
 		alphabet = string.ascii_letters
 		n = len(alphabet)
@@ -37,7 +37,7 @@ class Vigenere(Cipher):
 			i += 1
 		return out
 
-	def decrypt(self, text):
+	def decrypt(self, text: str) -> str:
 		key = self.get_vig_key(text)
 		alphabet = string.ascii_letters
 		n = len(alphabet)

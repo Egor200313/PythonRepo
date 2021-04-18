@@ -4,7 +4,7 @@ from AbstractCipher import Cipher
 
 
 class Vernam(Cipher):
-    def crypt(self, text):
+    def crypt(self, text: str) -> str:
         key = self.generate_key(len(text))
         print("Your unique key is: ", key)
         alphabet = string.ascii_letters
@@ -23,7 +23,7 @@ class Vernam(Cipher):
             i += 1
         return code
 
-    def decrypt(self, text):
+    def decrypt(self, text: str) -> str:
         key = self.get_key(len(text))
         alphabet = string.ascii_letters
         n = len(alphabet)
@@ -41,7 +41,7 @@ class Vernam(Cipher):
         return code
 
     @staticmethod
-    def generate_key(length):
+    def generate_key(length: int) -> str:
         n = len(string.ascii_letters)
         key = []
         for i in range(length):
@@ -49,7 +49,7 @@ class Vernam(Cipher):
         return ' '.join(key)
 
     @staticmethod
-    def get_key(length):
+    def get_key(length: int) -> list:
         correct_key = False
         key = []
         while not correct_key:
