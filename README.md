@@ -2,23 +2,23 @@
 
 ### Как запускать:
 
-python3 main.py <path/to/file/source/file> options <path/to/output/file>
+python3 main.py <path/to/file/source/file> <path/to/output/file> -c CIPHER -a ACTION
 
-*options:*
+*CIPHER:*
 
--C зашифровать цезарем
+**caesar** Цезаря
 
--CE расшифровать цезаря
+**vernam** Вернама
 
--CH взлом цезаря частотным анализом
+**vigenere** Виженера
 
--V защифровать виженером
+*ACTION:*
 
--VE расшифровать виженера
+**crypt** зашифровать
 
--Ver зашифровать вернамом
+**decrypt** расшифровать
 
--VerE расшифровать вернама
+**break** взломать (только при CIPHER=caesar)
 
 ## Стеганография:
 
