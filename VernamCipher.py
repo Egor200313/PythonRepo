@@ -42,7 +42,7 @@ class Vernam(Cipher):
 
     @staticmethod
     def generate_key(length: int) -> str:
-        n = len(string.ascii_letters)
+        n = len(string.ascii_lowercase)
         key = []
         for i in range(length):
             key.append(str(randint(0, n)))
