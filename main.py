@@ -1,4 +1,5 @@
 import argparse
+import sys
 from breaker import CaesarBreaker
 from CaesarCipher import Caesar
 from VernamCipher import Vernam
@@ -7,11 +8,11 @@ from VigenereCipher import Vigenere
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("path_from", help='Path to input file')
-    parser.add_argument("path_to", help='Path to output file')
+    parser.add_argument("--path_from", help='Path to input file')
+    parser.add_argument("--path_to", help='Path to output file')
 
     parser.add_argument("-c", "--cipher", help="type of cipher", choices=["caesar", "vernam", "vigenere"], required=True)
-    parser.add_argument("-a", "--action", help="what to do", choices=["crypt", "derypt", "break"], required=True)
+    parser.add_argument("-a", "--action", help="what to do", choices=["crypt", "decrypt", "break"], required=True)
 
     args = parser.parse_args()
 
@@ -27,9 +28,13 @@ def main():
     elif args.cipher == "vigenere":
         cip = Vigenere()
 
-    with open(path, errors='ignore') as f:
-        all_text = f.readlines()
-        text = ''.join(all_text)
+    if path is None:
+        print("Enter your text:")
+        text = sys.stdin.read()
+    else:
+        with open(path, errors='ignore') as f:
+            all_text = f.readlines()
+            text = ''.join(all_text)
 
     output = ""
     if args.action == "crypt":
@@ -46,8 +51,11 @@ def main():
     else:
         print("Can break only caesar!")
 
-    with open(result_file, "w") as out:
-        out.write(output)
+    if not result_file:
+        sys.stdout.write(output)
+    else:
+        with open(result_file, "w") as out:
+            out.write(output)
 
 
 if __name__ == "__main__":
