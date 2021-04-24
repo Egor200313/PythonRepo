@@ -12,62 +12,64 @@ def crypt(img_name: str, input_file_name: str, output_img_name: str) -> None:
 		print("Text is too long!")
 		return
 
-	with open(img_name, "rb") as img_bmp:
-		with open(output_img_name, "wb") as edited_bmp:
-			with open(input_file_name, "r", errors='ignore') as source_file:
-				message = source_file.readlines()
-				message = ''.join(message)
+	with open(input_file_name, "r", errors='ignore') as source_file:
+		message = source_file.readlines()
+		message = ''.join(message)
 
-				first54 = img_bmp.read(54)
-				edited_bmp.write(first54)
+	with open(img_name, "rb") as img_bmp, open(output_img_name, "wb") as edited_bmp:
 
-				img_mask = (255 << degree) % 256
-				text_mask = 3 << (8 - degree)
+		first54 = img_bmp.read(54)
+		edited_bmp.write(first54)
 
-				for symbol in message:
-					symbol = ord(symbol)
-					for chunks in range(0, 8, degree):#write one symbol from message to img
-						img_byte = int.from_bytes(img_bmp.read(1), sys.byteorder) & img_mask
-						bits = symbol & text_mask
-						bits >>= (8-degree)
+		img_mask = (255 << degree) % 256
+		text_mask = 3 << (8 - degree)
 
-						img_byte |= bits
+		for symbol in message:
+			symbol = ord(symbol)
+			for chunks in range(0, 8, degree):#write one symbol from message to img
+				img_byte = int.from_bytes(img_bmp.read(1), sys.byteorder) & img_mask
+				bits = symbol & text_mask
+				bits >>= (8-degree)
 
-						edited_bmp.write(img_byte.to_bytes(1, sys.byteorder))
-						symbol <<= degree
-				edited_bmp.write(img_bmp.read())
+				img_byte |= bits
+
+				edited_bmp.write(img_byte.to_bytes(1, sys.byteorder))
+				symbol <<= degree
+		edited_bmp.write(img_bmp.read())
 
 
 def decrypt(img_name: str, output_file_name: str) -> None:
-	with open(img_name, "rb") as img:
-		with open(output_file_name, "w") as output_file:
-			degree = int(input("Enter degree(1/2/4/8): "))
-			img_mask = 2**degree - 1
-			symb_number = int(input("Enter length: "))
-			img.seek(54)
+	with open(img_name, "rb") as img, open(output_file_name, "w") as output_file:
+		degree = int(input("Enter degree(1/2/4/8): "))
+		img_mask = 2**degree - 1
+		symb_number = int(input("Enter length: "))
+		img.seek(54)
 
-			for i in range(symb_number):
-				cur_symb = 0
-				for chunks in range(0, 8, degree):#write one symbol from message to img
-					img_byte = int.from_bytes(img.read(1), sys.byteorder) & img_mask
-					cur_symb <<= degree
-					cur_symb |= img_byte
-				output_file.write(chr(cur_symb))
+		for i in range(symb_number):
+			cur_symb = 0
+			for chunks in range(0, 8, degree):#write one symbol from message to img
+				img_byte = int.from_bytes(img.read(1), sys.byteorder) & img_mask
+				cur_symb <<= degree
+				cur_symb |= img_byte
+			output_file.write(chr(cur_symb))
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-a", "--action", help="what to do", required=True)
-args = parser.parse_args()
+def main():
+	parser = argparse.ArgumentParser()
+	parser.add_argument("img_name", help="full input image name", required=True)
+	parser.add_argument("outfile", help="full output file name", required=True)
+	parser.add_argument("-a", "--action", help="what to do", choices=["crypt", "decrypt"], required=True)
+	args = parser.parse_args()
 
-command = args.action
-if command == "crypt":
-	img_name = input("Enter full img name: ")
-	input_file = input("Enter full text file name: ")
-	output_img = input("Enter output img name: ")
-	crypt(img_name, input_file, output_img)
-elif command == "decrypt":
-	img_name = input("Enter full img name: ")
-	output_text = input("Enter output file name: ")
-	decrypt(img_name, output_text)
-else:
-	print("command not found")
+	command = args.action
+	img_name = args.img_name
+	outputfile = args.outfile
+	if command == "crypt":
+		input_file = input("Enter full text file name: ")
+		crypt(img_name, input_file, outputfile)
+	elif command == "decrypt":
+		decrypt(img_name, outputfile)
+
+
+if __name__ == "__main__":
+	main()

@@ -1,5 +1,5 @@
 import argparse
-from breaker import break_caesar
+from breaker import CaesarBreaker
 from CaesarCipher import Caesar
 from VernamCipher import Vernam
 from VigenereCipher import Vigenere
@@ -10,8 +10,8 @@ def main():
     parser.add_argument("path_from", help='Path to input file')
     parser.add_argument("path_to", help='Path to output file')
 
-    parser.add_argument("-c", "--cipher", help="type of cipher", required=True)
-    parser.add_argument("-a", "--action", help="what to do", required=True)
+    parser.add_argument("-c", "--cipher", help="type of cipher", choices=["caesar", "vernam", "vigenere"], required=True)
+    parser.add_argument("-a", "--action", help="what to do", choices=["crypt", "derypt", "break"], required=True)
 
     args = parser.parse_args()
 
@@ -26,8 +26,6 @@ def main():
         cip = Vernam()
     elif args.cipher == "vigenere":
         cip = Vigenere()
-    else:
-        print("cipher not found")
 
     with open(path, errors='ignore') as f:
         all_text = f.readlines()
@@ -39,9 +37,14 @@ def main():
     elif args.action == "decrypt":
         output = cip.decrypt(text)
     elif args.action == "break" and args.cipher == "caesar":
-        output = break_caesar(text)
+        train_file = input("Enter full path to train file: ")
+        with open(train_file) as f:
+            train_text = f.readlines()
+        train_text = ''.join(train_text)
+        cb = CaesarBreaker(train_text)
+        output = cb.break_caesar(text)
     else:
-        print("command not found")
+        print("Can break only caesar!")
 
     with open(result_file, "w") as out:
         out.write(output)

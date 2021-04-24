@@ -4,41 +4,34 @@ from AbstractCipher import Cipher
 
 
 class Vernam(Cipher):
-    def crypt(self, text: str) -> str:
-        key = self.generate_key(len(text))
-        print("Your unique key is: ", key)
+    def change_text(self, command: str, text: str):
+        if command == "crypt":
+            key = self.generate_key(len(text))
+            print("Your unique key is: ", key)
+        else:
+            key = self.get_key(len(text))
         alphabet = string.ascii_letters
         n = len(alphabet)
-        i = 0
         code = ""
         key = key.split()
-        for letter in text:
+        for i, letter in enumerate(text):
             if not letter.isalpha():
                 code += letter
-                i += 1
                 continue
             pos = alphabet.find(letter)
-            pos = (pos + int(key[i])) % n
+            if command == "crypt":
+                pos = (pos + int(key[i])) % n
+            else:
+                pos = (pos - int(key[i]) + n) % n
+
             code += alphabet[pos]
-            i += 1
         return code
 
+    def crypt(self, text: str) -> str:
+        return self.change_text("crypt", text)
+
     def decrypt(self, text: str) -> str:
-        key = self.get_key(len(text))
-        alphabet = string.ascii_letters
-        n = len(alphabet)
-        i = 0
-        code = ""
-        for letter in text:
-            if not letter.isalpha():
-                code += letter
-                i += 1
-                continue
-            pos = alphabet.find(letter)
-            pos = (pos - int(key[i]) + n) % n
-            code += alphabet[pos]
-            i += 1
-        return code
+        return self.change_text("decrypt", text)
 
     @staticmethod
     def generate_key(length: int) -> str:

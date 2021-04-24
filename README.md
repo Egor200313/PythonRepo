@@ -26,9 +26,9 @@ python3 main.py <path/to/file/source/file> <path/to/output/file> -c CIPHER -a AC
 
 ### Как запускать:
 
-python3 steg.py [option]
+**python3 steg.py <path/to/.bmp/file> <path/to/output/file> [option]**
 
-*options:*
+*option:*
 
 **crypt** зашифровать в картинку
 

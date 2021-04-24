@@ -21,6 +21,12 @@ class Vigenere(Cipher):
 		return key
 
 	def crypt(self, text: str) -> str:
+		return self.change(text, "crypt")
+
+	def decrypt(self, text: str) -> str:
+		return self.change(text, "decrypt")
+
+	def change(self, text: str, command: str) -> str:
 		key = self.get_vig_key(len(text))
 		alphabet = string.ascii_letters
 		n = len(alphabet)
@@ -32,25 +38,11 @@ class Vigenere(Cipher):
 				continue
 			pos1 = alphabet.find(letter)
 			pos2 = alphabet.find(key[i])
-			ind = (pos1+pos2) % n
+			if command == "decrypt":
+				ind = (pos1 - pos2 + n) % n
+			else:
+				ind = (pos1 + pos2) % n
+
 			out += alphabet[ind]
 			i += 1
 		return out
-
-	def decrypt(self, text: str) -> str:
-		key = self.get_vig_key(text)
-		alphabet = string.ascii_letters
-		n = len(alphabet)
-		out = ""
-		i = 0
-		for letter in text:
-			if not letter.isalpha():
-				out += letter
-				continue
-			pos1 = alphabet.find(letter)
-			pos2 = alphabet.find(key[i])
-			ind = (pos1 - pos2 + n) % n
-			out += alphabet[ind]
-			i += 1
-		return out
-
