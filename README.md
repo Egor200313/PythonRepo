@@ -2,7 +2,7 @@
 
 ### Как запускать:
 
-**`python3 main.py <path/to/file/source/file> <path/to/output/file> -c [CIPHER] -a [ACTION]`**
+**`python3 main.py <path/to/source/file> <path/to/output/file> -c [CIPHER] -a [ACTION]`**
 
 *CIPHER:*
 
