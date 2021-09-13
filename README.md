@@ -2,23 +2,23 @@
 
 ### Как запускать:
 
-**python3 main.py <path/to/file/source/file> <path/to/output/file> -c [CIPHER] -a [ACTION]**
+**`python3 main.py <path/to/file/source/file> <path/to/output/file> -c [CIPHER] -a [ACTION]`**
 
 *CIPHER:*
 
-**caesar** Цезаря
+**`caesar`** Цезаря
 
-**vernam** Вернама
+**`vernam`** Вернама
 
-**vigenere** Виженера
+**`vigenere`** Виженера
 
 *ACTION:*
 
-**crypt** зашифровать
+**`crypt`** зашифровать
 
-**decrypt** расшифровать
+**`decrypt`** расшифровать
 
-**break** взломать (только при CIPHER=caesar)
+**`break`** взломать (только при CIPHER=caesar)
 
 ## Стеганография:
 
@@ -26,13 +26,13 @@
 
 ### Как запускать:
 
-**python3 steg.py <path/to/.bmp/file> <path/to/output/file> -a [ACTION] -i <path/to/input/file>**
+**`python3 steg.py <path/to/.bmp/file> <path/to/output/file> -a [ACTION] -i <path/to/input/file>`**
 
 *option:*
 
-**crypt** зашифровать в картинку
+**`crypt`** зашифровать в картинку
 
-**decrypt** достать из картинки
+**`decrypt`** достать из картинки
 
 
 
