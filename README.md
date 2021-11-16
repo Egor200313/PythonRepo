@@ -1,38 +1,38 @@
-# Задача Шифрование
+# Cipher
 
-### Как запускать:
+### How to run:
 
 **`python3 main.py <path/to/source/file> <path/to/output/file> -c [CIPHER] -a [ACTION]`**
 
 *CIPHER:*
 
-**`caesar`** Цезаря
+**`caesar`** Caesar cipher
 
-**`vernam`** Вернама
+**`vernam`** Vernam cipher
 
-**`vigenere`** Виженера
+**`vigenere`** Vigenere cipher
 
 *ACTION:*
 
-**`crypt`** зашифровать
+**`crypt`** to make encrypted text
 
-**`decrypt`** расшифровать
+**`decrypt`** to get source text from encrypted
 
-**`break`** взломать (только при CIPHER=caesar)
+**`break`** to break cipher with frequency analysis (only for CIPHER=caesar)
 
-## Стеганография:
+## Steganography:
 
-**Формат картинок .bmp**
+**Picture format .bmp**
 
-### Как запускать:
+### How to run:
 
 **`python3 steg.py <path/to/.bmp/file> <path/to/output/file> -a [ACTION] -i <path/to/input/file>`**
 
 *option:*
 
-**`crypt`** зашифровать в картинку
+**`crypt`** to hide text in picture
 
-**`decrypt`** достать из картинки
+**`decrypt`** to get text from picture
 
 
 
